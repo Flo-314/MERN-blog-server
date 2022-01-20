@@ -1,0 +1,34 @@
+extends layout
+
+block content
+ 
+  header
+      #title
+        h1
+        a(href='/') mern blog
+      nav
+        h2
+        a(href='/log-in') Log-in
+        h2
+        a(href='/sign-up') Sign-Up
+
+  main
+    .formContainer 
+      h1  Login into your account
+      form(method="post")
+
+        label(for="username") 
+        input(type="text" name="username" id="username" placeholder="introduce your username")
+
+        label(for="password") 
+        input(type="password" id="password" name="password" placeholder="introduce your password")
+
+        input(type='submit' value='OK')
+
+        if errors 
+          for error in errors 
+            p=error
+
+
+
+
