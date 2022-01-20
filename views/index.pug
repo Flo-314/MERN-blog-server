@@ -21,6 +21,7 @@ block content
     if user
 
       h1.postTitle POSTS:
+      hr
       #posts 
         if posts 
           for post in posts
@@ -31,11 +32,9 @@ block content
                 h3.profileName=post.user.name
                 h4.postDate=post.timestamp
               .contentContainer
-                p.postContent=post.content
-
                 form(method="post")
                   input(type="text" name="postid" value=post.id class="hidden")
                   input(type='submit' value='DELETE POST')
-
+              hr
 
 
