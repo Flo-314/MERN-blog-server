@@ -9,5 +9,21 @@ block content
             h2 
                 a(href="/log-out") Log-Out 
             h2 
-                a(href="/create-post") Create a Post   
+                a(href="/create-post") Create a Post
+
+
     main
+        script(src='https://cdn.ckeditor.com/ckeditor5/31.1.0/classic/ckeditor.js')
+        h1 Create a new post
+        form(method='post')
+            label(for="title")
+            input(type="text" id="title" name="title") 
+            textarea#editor(name='content')
+            p
+                input(type='submit' value='Submit')
+        script.
+            ClassicEditor
+            .create( document.querySelector( '#editor' ) )
+            .catch( error => {
+            console.error( error );
+            } );

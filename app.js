@@ -17,7 +17,7 @@ let PostRouter = require("./routes/post");
 let userRouter = require("./routes/users");
 let logInRouter = require("./routes/log-in");
 let loginRouter = require("./routes/login");
-let signupRouter = require("./routes/signupRouter");
+let signupRouter = require("./routes/signup");
 
 var app = express();
 db.connection();
@@ -31,17 +31,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(flash());
 
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(function (req, res, next) {
-  res.locals.currentUser = req.user;
-  next();
-});
-
+// cosas de api
 
 // cosas de pasaporte para frontend no api
-app.use(flash());
 app.use(
   session({
     secret: process.env.SECRET,
@@ -53,16 +47,24 @@ passport.use(passportConfig.strategy);
 passport.serializeUser(passportConfig.serializeUser);
 passport.deserializeUser(passportConfig.deserializeUser);
 
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(function (req, res, next) {
+  res.locals.currentUser = req.user;
+  next();
+});
+
+
+app.use( (req,res,next) => {
+  console.log(req.user)
+ next()
+})
 app.use("/", indexRouter);
-app.use("/post", PostRouter);
+app.use("/create-post", PostRouter);
 app.use("/log-in", logInRouter);
-app.use("/login", loginRouter);
 app.use("/sign-up", signupRouter);
+
 app.use("/user", userRouter);
-
-// cosas de api
-
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
