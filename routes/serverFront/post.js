@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var path = require("path");
-const Post = require("../models/post");
+const Post = require("../../models/post");
 /* GET home page. */
 
 router.get("/", function (req, res, next) {

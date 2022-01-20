@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var controller = require("../controller/signup")
+var controller = require("../../controller/signup")
 const multer  = require('multer')
 const upload = multer()
 

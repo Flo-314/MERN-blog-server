@@ -12,12 +12,11 @@ const jwtPassport = require("passport-jwt");
 const passportConfig = require("./helperModules/passportConfig");
 var flash = require("connect-flash");
 
-var indexRouter = require("./routes/index");
-let PostRouter = require("./routes/post");
-let userRouter = require("./routes/users");
-let logInRouter = require("./routes/log-in");
+var indexRouter = require("./routes/serverFront/index");
+let PostRouter = require("./routes/serverFront/post");
+let logInRouter = require("./routes/serverFront/log-in");
 let loginRouter = require("./routes/login");
-let signupRouter = require("./routes/signup");
+let signupRouter = require("./routes/serverFront/signup");
 
 var app = express();
 db.connection();
@@ -63,8 +62,6 @@ app.use("/", indexRouter);
 app.use("/create-post", PostRouter);
 app.use("/log-in", logInRouter);
 app.use("/sign-up", signupRouter);
-
-app.use("/user", userRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
