@@ -2,6 +2,8 @@ const LocalStrategy = require("passport-local").Strategy;
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 
+
+// strategy for admin in the local blog
 let strategy = new LocalStrategy((username, password, done) => {
   User.findOne({ username: username }, (err, user) => {
     if (err) {
@@ -33,6 +35,9 @@ let deserializeUser = (id, done) => {
     done(err, user);
   });
 };
+
+
+
 
 exports.strategy = strategy;
 exports.deserializeUser = deserializeUser;
