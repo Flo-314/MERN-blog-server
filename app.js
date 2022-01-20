@@ -32,9 +32,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(flash());
 
-// cosas de api
-
-// cosas de pasaporte para frontend no api
 app.use(
   session({
     secret: process.env.SECRET,
@@ -43,6 +40,7 @@ app.use(
   })
 );
 passport.use(passportConfig.strategy);
+passport.use(passportConfig.jwtStrategry)
 passport.serializeUser(passportConfig.serializeUser);
 passport.deserializeUser(passportConfig.deserializeUser);
 
@@ -54,10 +52,15 @@ app.use(function (req, res, next) {
 });
 
 
-app.use( (req,res,next) => {
-  console.log(req.user)
- next()
-})
+
+
+// cosas de api
+app.use("/login", loginRouter);
+
+// cosas de pasaporte para frontend no api
+
+
+
 app.use("/", indexRouter);
 app.use("/create-post", PostRouter);
 app.use("/log-in", logInRouter);
