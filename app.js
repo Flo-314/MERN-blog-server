@@ -15,9 +15,8 @@ var flash = require("connect-flash");
 var indexRouter = require("./routes/serverFront/index");
 let PostRouter = require("./routes/serverFront/post");
 let logInRouter = require("./routes/serverFront/log-in");
-let loginRouter = require("./routes/login");
 let signupRouter = require("./routes/serverFront/signup");
-
+let apiRouter = require("./routes/api")
 var app = express();
 db.connection();
 
@@ -55,7 +54,7 @@ app.use(function (req, res, next) {
 
 
 // cosas de api
-app.use("/login", loginRouter);
+app.use("/api", apiRouter)
 
 // cosas de pasaporte para frontend no api
 
@@ -65,7 +64,6 @@ app.use("/", indexRouter);
 app.use("/create-post", PostRouter);
 app.use("/log-in", logInRouter);
 app.use("/sign-up", signupRouter);
-
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
