@@ -11,6 +11,11 @@ const passport = require("passport");
 const jwtPassport = require("passport-jwt");
 const passportConfig = require("./helperModules/passportConfig");
 var flash = require("connect-flash");
+const cors = require("cors")
+
+
+
+
 
 var indexRouter = require("./routes/serverFront/index");
 let PostRouter = require("./routes/serverFront/post");
@@ -30,6 +35,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(flash());
+app.use(cors({
+  origin: "*"
+}))
+
 
 app.use(
   session({

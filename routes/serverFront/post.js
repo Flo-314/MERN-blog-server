@@ -1,20 +1,12 @@
 var express = require("express");
 var router = express.Router();
-var path = require("path");
 const Post = require("../../models/post");
-/* GET home page. */
+const passport = require("passport");
 
-router.get("/", function (req, res, next) {
-  if (req.user) {
-    res.render("form-post");
-  } else {
-    res.redirect("/");
-  }
-});
 
-module.exports = router;
 
-router.post("/", async (req, res) => {
+
+router.post("/",passport.authenticate('jwt', { session: false }), async (req, res) => {
   console.log(req.body);
   let image = {
     id: undefined,
@@ -23,7 +15,7 @@ router.post("/", async (req, res) => {
     let newPost = Post({
       title: req.body.title,
       content: req.body.content,
-      timestamp: new Date(),
+      timestamp: new Date().toLocaleDateString("en-US"),
       image: image.id,
       user: req.user.id,
     });
@@ -35,3 +27,4 @@ router.post("/", async (req, res) => {
     res.redirect("/posts/" + newPost.id);
   }
 });
+module.exports = router;
