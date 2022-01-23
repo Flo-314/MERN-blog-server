@@ -6,6 +6,7 @@ let userSchema = new Schema({
   password: { type: String, required: true },
   name: { type: String, required: true },
   username: { type: String, required: true },
+  image: { type: Schema.Types.ObjectId, ref: "image" },
 });
 
 module.exports = mongoose.model("user", userSchema);
