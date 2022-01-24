@@ -33,7 +33,7 @@ console.log(user.id)
 };
 
 exports.posts = async (req, res, next) => {
-  let posts = await Posts.find({}).populate("user");
+  let posts = await Posts.find({}).populate("user image");
 
   // saco la información confidencial del user
   posts = posts.map((post) => {
@@ -47,8 +47,8 @@ exports.posts = async (req, res, next) => {
 
 exports.postsId = async (req, res, next) => {
   const title = req.params.id;
-  let post = await Posts.find({ title }).populate("user");
-
+  let post = await Posts.find({ title }).populate("user image");
+  
   // saco la información confidencial del user
   post = post[0];
   post.user = { username: post.user.username };
@@ -61,18 +61,19 @@ exports.postsIdComments = async (req, res, next) => {
   let post = await Posts.find({ title });
   let comments;
   if (post.comments) {
-    post.populate("comments");
+    post.populate("comments ");
     comments = post.comments;
   }
   res.json({ comments });
 };
 
 exports.writers = async (req, res, next) => {
-  let writers = await User.find({});
+  let writers = await User.find({}).populate("image")
   writers = writers.map((writer) => {
     let newWriter = {
       username: writer.username,
       _id: writer._id,
+      image: writer.image
     };
     return newWriter;
   });
@@ -81,7 +82,7 @@ exports.writers = async (req, res, next) => {
 
 exports.writersId = async (req, res, next) => {
   const writer = req.params.id;
-  let posts = await Posts.find({ username: writer }).populate("user");
+  let posts = await Posts.find({ username: writer }).populate("user image")
 
   // saco la información confidencial del user
   posts = posts.map((post) => {
@@ -105,7 +106,7 @@ exports.users = async (req, res, next) => {
 
 exports.userId = async (req, res, next) => {
   const name = req.params.id;
-  let user = await User.find({ name });
+  let user = await User.find({ name })
   res.json({ user });
 };
 
@@ -137,7 +138,7 @@ exports.postPost = async (req, res,next) => {
       published: req.body.published,
       timestamp: new Date().toLocaleDateString("en-US"),
       image: newImage.id,
-      user: req.body.user.id,
+      user: req.body.user
     });
     await newPost.save((err) => {
       if (err) {

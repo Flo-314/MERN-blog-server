@@ -14,5 +14,7 @@ imageSchema.virtual("src").get(function () {
     this.img.contentType
   };base64,${Buffer.from(this.img.data).toString("base64")}`;
 });
+imageSchema.set('toObject', { virtuals: true });
+imageSchema.set('toJSON', { virtuals: true });
 
-module.exports = mongoose.model("Image", imageSchema);
+module.exports = mongoose.model("image", imageSchema);
