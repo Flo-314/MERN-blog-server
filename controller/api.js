@@ -7,7 +7,11 @@ const post = require("../models/post");
 exports.login = async (req, res) => {
   let { username, password } = req.query;
   let user = await User.findOne({ username });
+
   if (user !== null) {
+    console.log(user.password)
+    console.log(bcrypt.compareSync(password, user.password))
+
     if (bcrypt.compareSync(password, user.password) === true) {
       const opts = {};
       opts.expiresIn = 1800; //token expires in 2min

@@ -35,14 +35,17 @@ exports.post = [
 
   async (req, res, next) => {
     const errors = validationResult(req);
-    console.log(req.body);
-    console.log(req.file)
+
+
+
     //chekea la clave supersecreta
     if (req.body.secretpassword === process.env.secretkey) {
       if (errors.isEmpty()) {
         let userUsername = await User.find({ username: req.body.username });
         let userEmail = await User.find({ email: req.body.email });
 
+
+          console.log(userEmail.length === 0, userUsername.length === 0)
         if (userEmail.length === 0 && userUsername.length === 0) {
           //if everything is ok
           let salt = bcrypt.genSaltSync(10);
@@ -77,14 +80,21 @@ exports.post = [
               return next(err);
             }
           });
-          res.redirect("log-in");
+          res.json({sucess:"sucess"})
         }
         //si ya ESTA usado el mail o el username
         else {
-          
+          res.json({errors: {msg:"username or email already used"}});
+
         }
       }
+      //si hay errores de validacion
+      else{ 
+        res.json({errors:errors.array()[0]})
+      }
     }
-    //if validation error
+    else{
+    res.json({errors:{msg:"Incorrect superSecret Code"}});
+  }
   },
 ];
