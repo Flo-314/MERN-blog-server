@@ -12,8 +12,7 @@ exports.login = async (req, res) => {
   let user = await User.findOne({ username });
 
   if (user !== null) {
-    console.log(user.password)
-    console.log(bcrypt.compareSync(password, user.password))
+console.log(user.id)
 
     if (bcrypt.compareSync(password, user.password) === true) {
       const opts = {};
@@ -21,7 +20,7 @@ exports.login = async (req, res) => {
       const secret = process.env.secretkey;
       const token = jwt.sign({ username }, secret, opts);
       return res.status(200).json({
-        userId: User._id,
+        userId: user._id,
         message: "Auth Passed",
         token,
    
