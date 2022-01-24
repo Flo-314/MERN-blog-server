@@ -2,7 +2,10 @@ const Posts = require("../models/post");
 const User = require("../models/user");
 var bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const post = require("../models/post");
+const Post = require("../models/post");
+const Image = require("../models/image");
+
+
 
 exports.login = async (req, res) => {
   let { username, password } = req.query;
@@ -18,8 +21,10 @@ exports.login = async (req, res) => {
       const secret = process.env.secretkey;
       const token = jwt.sign({ username }, secret, opts);
       return res.status(200).json({
+        userId: User._id,
         message: "Auth Passed",
         token,
+   
       });
     } else {
       return res.status(401);
@@ -104,3 +109,43 @@ exports.userId = async (req, res, next) => {
   let user = await User.find({ name });
   res.json({ user });
 };
+
+
+exports.postPost = async (req, res,next) => {
+  console.log(req.body);
+  console.log(req.file)
+  let newImage = {id: undefined}
+
+  if (req.file) {
+    newImage = new Image({
+      name: req.file.fieldname,
+      desc: req.file.originalname,
+      img: {
+        data: req.file.buffer,
+        contentType: req.file.mimetype,
+      },
+    });
+    await newImage.save((err) => {
+      if (err) {
+        return next(err);
+      }
+    });
+
+    let newPost = Post({
+      title: req.body.title,
+      content: req.body.content,
+      category: req.body.category,
+      published: req.body.published,
+      timestamp: new Date().toLocaleDateString("en-US"),
+      image: newImage.id,
+      user: req.body.user.id,
+    });
+    await newPost.save((err) => {
+      if (err) {
+        return next(err);
+      }
+    });
+    
+    res.json({msg:"post done"});
+  }
+}

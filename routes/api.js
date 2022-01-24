@@ -5,6 +5,9 @@ var express = require("express");
 var router = express.Router();
 const controller = require("../controller/api")
 const passport = require("passport");
+const Post = require("../models/post");
+const multer  = require('multer')
+const upload = multer()
 
 //  passport.authenticate('jwt', { session: false })
 
@@ -19,5 +22,5 @@ router.get("/category/:id", controller.categoryId);
 router.post("/login",controller.login );
 router.get("/user", passport.authenticate('jwt', { session: false }),controller.users)
 router.get("/user/:id", passport.authenticate('jwt', { session: false }),controller.userId);
-
+router.post("/post"/* ,passport.authenticate('jwt', { session: false }) */,upload.single("image"), controller.postPost);
 module.exports = router;
