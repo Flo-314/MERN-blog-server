@@ -6,7 +6,7 @@ require("dotenv").config();
 var bcrypt = require("bcryptjs");
 
 exports.index = (req, res, next) => {
-  res.render("singup");
+
 };
 exports.post = [
   body("name", "MIN FULL NAME LENGTH IS 4.")
@@ -36,6 +36,7 @@ exports.post = [
   async (req, res, next) => {
     const errors = validationResult(req);
     console.log(req.body);
+    console.log(req.file)
     //chekea la clave supersecreta
     if (req.body.secretpassword === process.env.secretkey) {
       if (errors.isEmpty()) {
@@ -80,13 +81,10 @@ exports.post = [
         }
         //si ya ESTA usado el mail o el username
         else {
-          res.render("singup", {
-            errors: [{ msg: "username or email is already used " }],
-          });
+          
         }
       }
     }
     //if validation error
-    res.render("sign-up", { errors: errors.array() });
   },
 ];

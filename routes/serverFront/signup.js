@@ -6,9 +6,8 @@ const upload = multer()
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('sign-up');
 });
 
-router.post('/', upload.single("profilePhoto"), controller.post);
+router.post('/', upload.single("image"), controller.post);
 
 module.exports = router;
