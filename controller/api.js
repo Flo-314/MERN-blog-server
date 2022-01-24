@@ -47,13 +47,14 @@ exports.posts = async (req, res, next) => {
 
 exports.postsId = async (req, res, next) => {
   const title = req.params.id;
-  let post = await Posts.find({ title }).populate("user image");
-  
+  let post = await Posts.findOne({ title }).populate("user").populate({path:"user",populate:"image"})
+  if(post){
   // saco la información confidencial del user
-  post = post[0];
-  post.user = { username: post.user.username };
+  post.user = { username: post.user.username, image:post.user.image};
+  console.log(post.user.image)
 
   res.json({ post });
+}
 };
 
 exports.postsIdComments = async (req, res, next) => {
