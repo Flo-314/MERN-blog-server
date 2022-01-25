@@ -4,6 +4,7 @@ var bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Post = require("../../models/post");
 const Image = require("../../models/image");
+const { body } = require("express-validator");
 
 
 exports.posts = async (req, res, next) => {
@@ -67,9 +68,11 @@ exports.login = async (req, res) => {
   };
   
   exports.putWriter = async(req,res) => {
-    let user = await Post.updateOne({"_id": req.body.id},{
-      username: req.body.username,
+    const _id = req.params.id;
+    let user = await User.updateOne({_id},{
+      username: req.body.body.username,
     })
+    console.log(user)
     res.json({msg:"done"})
 }
 
