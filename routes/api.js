@@ -22,11 +22,19 @@ router.get("/category/:id", userController.categoryId);
 
 // ONLY FOR ADMINS
 
-router.get("/admin-posts" , passport.authenticate('jwt', { session: false }), adminController.posts )
-router.get("/admin-posts/:id" , passport.authenticate('jwt', { session: false }), adminController.postsId )
+
+
 router.post("/login",adminController.login );
+
+
 router.get("/user", passport.authenticate('jwt', { session: false }),adminController.writers)
 router.get("/user/:id", passport.authenticate('jwt', { session: false }),adminController.writerId);
+
+router.put("/user/:id", passport.authenticate('jwt', { session: false }),adminController.putWriter);
+
+router.get("/admin-posts" , passport.authenticate('jwt', { session: false }), adminController.posts )
+router.get("/admin-posts/:id" , passport.authenticate('jwt', { session: false }), adminController.postsId )
+
 router.post("/post" ,passport.authenticate('jwt', { session: false }) ,upload.single("image"), adminController.postPost);
 router.put("/post",passport.authenticate('jwt', { session: false }) ,upload.single("image"), adminController.putPost)
 router.delete("/post",passport.authenticate('jwt', { session: false }) ,upload.single("image"), adminController.deletePost)
