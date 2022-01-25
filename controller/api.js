@@ -88,7 +88,7 @@ exports.writersId = async (req, res, next) => {
   // saco la información confidencial del user
   posts = posts.map((post) => {
     let newPost = post;
-    newPost.user = { username: post.user.username };
+    newPost.user = { username: post.user.username,  image:post.user.image };
     return newPost;
   });
   res.json({ posts });
