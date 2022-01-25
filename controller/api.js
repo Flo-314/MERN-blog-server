@@ -33,12 +33,12 @@ console.log(user.id)
 };
 
 exports.posts = async (req, res, next) => {
-  let posts = await Posts.find({}).populate("user image");
+  let posts = await Posts.find({}).populate("user image").populate({path:"user",populate:"image"})
 
   // saco la información confidencial del user
   posts = posts.map((post) => {
     let newPost = post;
-    newPost.user = { username: post.user.username };
+    newPost.user = { username: post.user.username, image:post.user.image };
     return newPost;
   });
 
