@@ -25,7 +25,6 @@ exports.postsId = async (req, res, next) => {
   if(post){
   // saco la información confidencial del user
   post.user = { username: post.user.username, image:post.user.image};
-  console.log(post.user.image)
 
   res.json({ post });
 }
@@ -37,7 +36,6 @@ exports.login = async (req, res) => {
     let user = await User.findOne({ username });
   
     if (user !== null) {
-  console.log(user.id)
   
       if (bcrypt.compareSync(password, user.password) === true) {
         const opts = {};
@@ -68,10 +66,19 @@ exports.login = async (req, res) => {
     res.json({ user });
   };
   
+  exports.putWriter = async(req,res) => {
+    let user = await Post.updateOne({"_id": req.body.id},{
+      username: req.body.username,
+    })
+    res.json({msg:"done"})
+}
+
+
+
+
   
   exports.postPost = async (req, res,next) => {
-    console.log(req.body);
-    console.log(req.file)
+ 
     let newImage = {id: undefined}
   
     if (req.file) {
@@ -122,10 +129,10 @@ exports.login = async (req, res) => {
   }
   
   exports.deletePost =async (req,res) => {
-    console.log(req.body)
     await Post.deleteOne({"_id":req.body.id})
     res.json({msg:"done"})
   
   }
   
   
+    

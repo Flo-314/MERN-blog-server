@@ -24,7 +24,6 @@ exports.posts = async (req, res, next) => {
     if(post){
     // saco la información confidencial del user
     post.user = { username: post.user.username, image:post.user.image};
-    console.log(post.user.image)
   
     res.json({ post });
   }

@@ -45,7 +45,6 @@ exports.post = [
         let userEmail = await User.find({ email: req.body.email });
 
 
-          console.log(userEmail.length === 0, userUsername.length === 0)
         if (userEmail.length === 0 && userUsername.length === 0) {
           //if everything is ok
           let salt = bcrypt.genSaltSync(10);
