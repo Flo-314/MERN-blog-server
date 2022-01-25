@@ -54,9 +54,8 @@ exports.posts = async (req, res, next) => {
   };
   
   exports.writersId = async (req, res, next) => {
-    const _id = req.params.id
-    console.log(user)
-    let posts = await Posts.find({_id}).populate("user image").populate({path:"user",populate:"image"}) 
+    const user = req.params.id
+    let posts = await Posts.find({user}).populate("user image").populate({path:"user",populate:"image"})  
   
     // saco la información confidencial del user
     posts = posts.map((post) => {
