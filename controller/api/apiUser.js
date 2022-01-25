@@ -6,7 +6,7 @@ const Post = require("../../models/post");
 const Image = require("../../models/image");
 
 exports.posts = async (req, res, next) => {
-    let posts = await Posts.find({}).populate("user image").populate({path:"user",populate:"image"})
+    let posts = await Posts.find({"published": true}).populate("user image").populate({path:"user",populate:"image"})
   
     // saco la información confidencial del user
     posts = posts.map((post) => {
@@ -20,7 +20,7 @@ exports.posts = async (req, res, next) => {
   
   exports.postsId = async (req, res, next) => {
     const title = req.params.id;
-    let post = await Posts.findOne({ title }).populate("user").populate({path:"user",populate:"image"})
+    let post = await Posts.findOne({ title, "published": true }).populate("user").populate({path:"user",populate:"image"})
     if(post){
     // saco la información confidencial del user
     post.user = { username: post.user.username, image:post.user.image};
@@ -32,7 +32,7 @@ exports.posts = async (req, res, next) => {
   
   exports.postsIdComments = async (req, res, next) => {
     const title = req.params.id;
-    let post = await Posts.find({ title });
+    let post = await Posts.find({ title, "published": true });
     let comments;
     if (post.comments) {
       post.populate("comments ");

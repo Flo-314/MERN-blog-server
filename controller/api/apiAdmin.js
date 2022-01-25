@@ -6,6 +6,32 @@ const Post = require("../../models/post");
 const Image = require("../../models/image");
 
 
+exports.posts = async (req, res, next) => {
+  let posts = await Posts.find({}).populate("user image").populate({path:"user",populate:"image"})
+
+  // saco la información confidencial del user
+  posts = posts.map((post) => {
+    let newPost = post;
+    newPost.user = { username: post.user.username, image:post.user.image };
+    return newPost;
+  });
+
+  res.json({ posts });
+};
+
+exports.postsId = async (req, res, next) => {
+  const title = req.params.id;
+  let post = await Posts.findOne({ title }).populate("user").populate({path:"user",populate:"image"})
+  if(post){
+  // saco la información confidencial del user
+  post.user = { username: post.user.username, image:post.user.image};
+  console.log(post.user.image)
+
+  res.json({ post });
+}
+};
+
+
 exports.login = async (req, res) => {
     let { username, password } = req.query;
     let user = await User.findOne({ username });
@@ -101,4 +127,5 @@ exports.login = async (req, res) => {
     res.json({msg:"done"})
   
   }
+  
   
