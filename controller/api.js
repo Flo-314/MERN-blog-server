@@ -47,7 +47,7 @@ exports.posts = async (req, res, next) => {
 
 exports.postsId = async (req, res, next) => {
   const title = req.params.id;
-  let post = await Posts.findOne({ title }).populate("user").populate({path:"user",populate:"image"})
+  let post = await Posts.findOne({ title }).populate("user").
   if(post){
   // saco la información confidencial del user
   post.user = { username: post.user.username, image:post.user.image};
@@ -83,7 +83,7 @@ exports.writers = async (req, res, next) => {
 
 exports.writersId = async (req, res, next) => {
   const writer = req.params.id;
-  let posts = await Posts.find({ username: writer }).populate("user image")
+  let posts = await Posts.find({ username: writer }).populate("user image").populate({path:"user",populate:"image"})
 
   // saco la información confidencial del user
   posts = posts.map((post) => {
