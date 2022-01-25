@@ -16,7 +16,7 @@ console.log(user.id)
 
     if (bcrypt.compareSync(password, user.password) === true) {
       const opts = {};
-      opts.expiresIn = 1800; //token expires in 2min
+      opts.expiresIn = 1800;
       const secret = process.env.secretkey;
       const token = jwt.sign({ username }, secret, opts);
       return res.status(200).json({
@@ -150,3 +150,23 @@ exports.postPost = async (req, res,next) => {
     res.json({msg:"post done"});
   }
 }
+
+
+exports.putPost = async(req,res) => {
+    let post = await Post.updateOne({"_id": req.body.id},{
+      title: req.body.title,
+      content: req.body.content,
+      category: req.body.category,
+      published: req.body.published,
+    })
+    res.json({msg:"done"})
+
+
+}
+
+exports.deletePost =async (req,res) => {
+  await Post.deleteOne({"_id":req.body.id})
+  res.json({msg:"done"})
+
+}
+
