@@ -20,7 +20,7 @@ exports.posts = async (req, res, next) => {
   
   exports.postsId = async (req, res, next) => {
     const title = req.params.id;
-    let post = await Posts.findOne({ title, "published": true }).populate("user").populate({path:"user",populate:"image"})
+    let post = await Posts.findOne({ title, "published": true }).populate("user image").populate({path:"user",populate:"image"})
     if(post){
     // saco la información confidencial del user
     post.user = { username: post.user.username, image:post.user.image};

@@ -62,7 +62,6 @@ app.use(function (req, res, next) {
 app.use("/api", apiRouter)
 app.use("/sign-up", signupRouter);
 
-// cosas de pasaporte para frontend no api
 
 
 // catch 404 and forward to error handler
