@@ -96,7 +96,7 @@ exports.writersId = async (req, res, next) => {
 
 exports.categoryId = async (req, res, next) => {
   const category = req.params.id;
-  let posts = await Posts.find({ category });
+  let posts = await Posts.find({ category }).populate("user image").populate({path:"user",populate:"image"})
   res.json({ posts });
 };
 
