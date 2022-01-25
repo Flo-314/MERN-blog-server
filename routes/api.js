@@ -23,5 +23,6 @@ router.post("/login",controller.login );
 router.get("/user", passport.authenticate('jwt', { session: false }),controller.users)
 router.get("/user/:id", passport.authenticate('jwt', { session: false }),controller.userId);
 router.post("/post" ,passport.authenticate('jwt', { session: false }) ,upload.single("image"), controller.postPost);
-router.put("/post",passport.authenticate('jwt', { session: false }) ,upload.single("image"), controller.postPost)
+router.put("/post",passport.authenticate('jwt', { session: false }) ,upload.single("image"), controller.putPost)
+router.delete("/post",passport.authenticate('jwt', { session: false }) ,upload.single("image"), controller.deletePost)
 module.exports = router;

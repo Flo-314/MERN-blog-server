@@ -165,6 +165,7 @@ exports.putPost = async(req,res) => {
 }
 
 exports.deletePost =async (req,res) => {
+  console.log(req.body)
   await Post.deleteOne({"_id":req.body.id})
   res.json({msg:"done"})
 
