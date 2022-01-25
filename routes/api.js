@@ -21,6 +21,9 @@ router.get("/writers/:id", userController.writersId);
 router.get("/category/:id", userController.categoryId);
 
 // ONLY FOR ADMINS
+
+router.get("/admin-posts" , passport.authenticate('jwt', { session: false }), adminController.posts )
+router.get("/admin-posts/:id" , passport.authenticate('jwt', { session: false }), adminController.postsId )
 router.post("/login",adminController.login );
 router.get("/user", passport.authenticate('jwt', { session: false }),adminController.writers)
 router.get("/user/:id", passport.authenticate('jwt', { session: false }),adminController.writerId);
