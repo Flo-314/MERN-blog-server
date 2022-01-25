@@ -16,12 +16,8 @@ const cors = require("cors")
 
 
 
-
-var indexRouter = require("./routes/serverFront/index");
-let PostRouter = require("./routes/serverFront/post");
-let logInRouter = require("./routes/serverFront/log-in");
-let signupRouter = require("./routes/serverFront/signup");
 let apiRouter = require("./routes/api")
+let signupRouter = require("./routes/signup")
 var app = express();
 db.connection();
 
@@ -64,15 +60,11 @@ app.use(function (req, res, next) {
 
 // cosas de api
 app.use("/api", apiRouter)
+app.use("/sign-up", signupRouter);
 
 // cosas de pasaporte para frontend no api
 
 
-
-app.use("/", indexRouter);
-app.use("/create-post", PostRouter);
-app.use("/log-in", logInRouter);
-app.use("/sign-up", signupRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
