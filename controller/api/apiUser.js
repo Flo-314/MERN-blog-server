@@ -6,12 +6,16 @@ const Post = require("../../models/post");
 const Image = require("../../models/image");
 
 exports.posts = async (req, res, next) => {
-    let posts = await Posts.find({"published": true}).populate("user image").populate({path:"user",populate:"image"})
+    let posts = await Posts.find({"published": true}).populate("user image").populate({path:"user",populate:"image"}) 
   
     // saco la información confidencial del user
     posts = posts.map((post) => {
+      console.log(post.user._id)
+
       let newPost = post;
-      newPost.user = { username: post.user.username, image:post.user.image };
+      
+      newPost.user = { username: post.user.username, image:post.user.image, _id: post.user._id };
+   
       return newPost;
     });
   
@@ -23,7 +27,7 @@ exports.posts = async (req, res, next) => {
     let post = await Posts.findOne({ title, "published": true }).populate("user image").populate({path:"user",populate:"image"})
     if(post){
     // saco la información confidencial del user
-    post.user = { username: post.user.username, image:post.user.image};
+    post.user = { username: post.user.username, image:post.user.image, _id: post.user._id};
   
     res.json({ post });
   }
